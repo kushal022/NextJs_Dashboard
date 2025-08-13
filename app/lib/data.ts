@@ -11,17 +11,18 @@ import { formatCurrency } from './utils';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
+//* Fetch Revenue:
 export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Fetching revenue data...');
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
 
-    // console.log('Data fetch completed after 3 seconds.');
+    console.log('Data fetch completed after 5 seconds.');
 
     return data;
   } catch (error) {
@@ -30,6 +31,7 @@ export async function fetchRevenue() {
   }
 }
 
+//* Fetch Latest Invoices: sql
 export async function fetchLatestInvoices() {
   try {
     const data = await sql<LatestInvoiceRaw[]>`
@@ -50,6 +52,7 @@ export async function fetchLatestInvoices() {
   }
 }
 
+//* Fetch Card Data: (Parallel request)
 export async function fetchCardData() {
   try {
     // You can probably combine these into a single SQL query
